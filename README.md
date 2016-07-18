@@ -9,3 +9,5 @@ It can take a snapshot (screenshot/selfie...) of the image when you click on the
 <img src="{{screen}}"></img>
 
 ```
+
+You can see it working here: https://fernandezpaco.github.io/video-camera/index.html
