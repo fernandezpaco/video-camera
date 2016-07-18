@@ -3,6 +3,7 @@
   "authors": [
     "e022333 <ffernandez@bbva.com>"
   ],
+  "version": "1.0.0",
   "description": "Component to upload a canvas to imgur",
   "main": "imgur-upload.html",
   "keywords": [
