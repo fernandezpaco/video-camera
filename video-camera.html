@@ -1,0 +1,66 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="video-camera">
+<template>
+    <video id="video" on-tap="takePicture"></video>
+    <canvas id="canvas" style="display:none"></canvas>
+</template>
+<script>
+Polymer({
+    is: "video-camera",
+    properties: {
+        screenshot: {
+            type: String,
+            notify: true
+        }
+    },
+    ready: function(){
+        // Grab elements, create settings, etc.
+        var canvas = this.$.canvas;
+
+        var context = canvas.getContext("2d"),
+        video = this.$.video,
+        videoObj = { "video": true },
+        errBack = function(error) {
+            console.log("Video capture error: ", error.code); 
+        };
+
+        // Put video listeners into place
+        if(navigator.getUserMedia) { // Standard
+            navigator.getUserMedia(videoObj, function(stream) {
+                video.src = stream;
+                video.play();
+            }, errBack);
+        } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+            navigator.webkitGetUserMedia(videoObj, function(stream){
+                video.src = window.URL.createObjectURL(stream);
+                video.play();
+            }, errBack);
+        }
+        else if(navigator.mozGetUserMedia) { // Firefox-prefixed
+            navigator.mozGetUserMedia(videoObj, function(stream){
+                video.src = window.URL.createObjectURL(stream);
+                video.play();
+            }, errBack);
+        }
+
+    },
+    takePicture: function(e){
+        var canvas = this.$.canvas;
+        var videoObj = this.$.video;
+
+        var context = canvas.getContext('2d');
+
+        videoObj.setAttribute('width', videoObj.clientWidth);
+        videoObj.setAttribute('height', videoObj.clientHeight);
+
+        canvas.width = videoObj.clientWidth;
+        canvas.height = videoObj.clientHeight;
+        
+        context.drawImage(videoObj, 0, 0, canvas.width, canvas.height);
+
+        this.screenshot = canvas.toDataURL('image/png');     
+    }
+});
+</script>
+</dom-module>

@@ -1,0 +1,25 @@
+{
+  "name": "imgur-upload",
+  "authors": [
+    "e022333 <ffernandez@bbva.com>"
+  ],
+  "description": "Component to upload a canvas to imgur",
+  "main": "imgur-upload.html",
+  "keywords": [
+    "web-components"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "iron-ajax": "PolymerElements/iron-ajax#^1.4.0",
+    "polymer": "Polymer/polymer#^1.0.0",
+    "webcomponentsjs": "^0.7.22"
+  }
+}
