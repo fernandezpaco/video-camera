@@ -2,7 +2,7 @@
 
 <dom-module id="video-camera">
 <template>
-    <video id="video" on-tap="takePicture"></video>
+    <video id="videoId" on-tap="takePicture"></video>
     <canvas id="canvas" style="display:none"></canvas>
 </template>
 <script>
@@ -12,14 +12,21 @@ Polymer({
         screenshot: {
             type: String,
             notify: true
+        },
+        videoelement: {
+            type: Object,
+            notify: true
         }
     },
     ready: function(){
         // Grab elements, create settings, etc.
         var canvas = this.$.canvas;
 
+        var video = this.$.videoId;
+
+        this.videoelement = video;
+
         var context = canvas.getContext("2d"),
-        video = this.$.video,
         videoObj = { "video": true },
         errBack = function(error) {
             console.log("Video capture error: ", error.code); 
@@ -47,7 +54,7 @@ Polymer({
     },
     takePicture: function(e){
         var canvas = this.$.canvas;
-        var videoObj = this.$.video;
+        var videoObj = this.$.videoId;
 
         var context = canvas.getContext('2d');
 
