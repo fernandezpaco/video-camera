@@ -33,20 +33,22 @@ Polymer({
         };
 
         // Put video listeners into place
+        var me=this;
         if(navigator.getUserMedia) { // Standard
             navigator.getUserMedia(videoObj, function(stream) {
-                video.src = stream;
+                me.set('videoelement.src', stream);
                 video.play();
             }, errBack);
         } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
             navigator.webkitGetUserMedia(videoObj, function(stream){
-                video.src = window.URL.createObjectURL(stream);
+                me.set('videoelement.src', window.URL.createObjectURL(stream));
+                //video.src=window.URL.createObjectURL(stream);
                 video.play();
             }, errBack);
         }
         else if(navigator.mozGetUserMedia) { // Firefox-prefixed
             navigator.mozGetUserMedia(videoObj, function(stream){
-                video.src = window.URL.createObjectURL(stream);
+                me.set('videoelement.src', window.URL.createObjectURL(stream));
                 video.play();
             }, errBack);
         }
