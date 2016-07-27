@@ -2,7 +2,7 @@
 
 <dom-module id="video-camera">
 <template>
-    <video id="videoId" on-tap="takePicture" style="width:100%"></video>
+    <video id="videoId" on-tap="snap" style="width:100%"></video>
     <canvas id="canvas" style="display:none"></canvas>
 </template>
 <script>
@@ -52,21 +52,26 @@ Polymer({
         }
 
     },
-    takePicture: function(e){
-        var canvas = this.$.canvas;
-        var videoObj = this.$.videoId;
+    snap(){
+        this.takePicture(true);
+    },
+    takePicture: function(actually){
+        if(actually){
+            var canvas = this.$.canvas;
+            var videoObj = this.$.videoId;
 
-        var context = canvas.getContext('2d');
+            var context = canvas.getContext('2d');
 
-        videoObj.setAttribute('width', videoObj.clientWidth);
-        videoObj.setAttribute('height', videoObj.clientHeight);
+            videoObj.setAttribute('width', videoObj.clientWidth);
+            videoObj.setAttribute('height', videoObj.clientHeight);
 
-        canvas.width = videoObj.clientWidth;
-        canvas.height = videoObj.clientHeight;
-        
-        context.drawImage(videoObj, 0, 0, canvas.width, canvas.height);
+            canvas.width = videoObj.clientWidth;
+            canvas.height = videoObj.clientHeight;
+            
+            context.drawImage(videoObj, 0, 0, canvas.width, canvas.height);
 
-        this.screenshot = canvas.toDataURL('image/png');     
+            this.screenshot = canvas.toDataURL('image/png');   
+        }  
     }
 });
 </script>
