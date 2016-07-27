@@ -10,4 +10,11 @@ It can take a snapshot (screenshot/selfie...) of the image when you click on the
 
 ```
 
+Additionally you can use it to bind it to a webrtc stream. In case you want if for this porpouse, you need to activate the waitforinput flag.
+
+```html
+<video-camera waitforinput="true" stream="[[peerstream]]"></video-camera>
+<webrtc-peer peerid_tocall="the-peer-id" peerstream="{{peerstream}}"></webrtc-peer>
+```
+
 You can see it working here: https://fernandezpaco.github.io/video-camera/index.html

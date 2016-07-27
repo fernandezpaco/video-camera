@@ -19,7 +19,12 @@ Polymer({
         },
         stream: {
             type: Object,
-            notify: true            
+            notify: true,
+            observer: '_stream_changed'           
+        },
+        waitforinput: {
+            type: Boolean,
+            value: false
         }
     },
     attached: function(){
@@ -38,30 +43,37 @@ Polymer({
 
         // Put video listeners into place
         var me=this;
-        if(navigator.getUserMedia) { // Standard
-            navigator.getUserMedia(videoObj, function(stream) {
-                me.set('videoelement.src', stream);
-                me.set('stream', stream);
-                video.play();
-            }, errBack);
-        } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-            navigator.webkitGetUserMedia(videoObj, function(stream){
-                me.set('videoelement.src', window.URL.createObjectURL(stream));
-                me.set('stream', stream);
-                //video.src=window.URL.createObjectURL(stream);
-                video.play();
-            }, errBack);
-        }
-        else if(navigator.mozGetUserMedia) { // Firefox-prefixed
-            navigator.mozGetUserMedia(videoObj, function(stream){
-                me.set('videoelement.src', window.URL.createObjectURL(stream));
-                me.set('stream', stream);
-                video.play();
-            }, errBack);
-        }
 
+        if(!this.waitforinput){
+            if(navigator.getUserMedia) { // Standard
+                navigator.getUserMedia(videoObj, function(stream) {
+                    me.set('videoelement.src', stream);
+                    video.play();
+                }, errBack);
+            } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+                navigator.webkitGetUserMedia(videoObj, function(stream){
+                    me.set('videoelement.src', window.URL.createObjectURL(stream));
+                    me.set('stream', stream);
+                    //video.src=window.URL.createObjectURL(stream);
+                    video.play();
+                }, errBack);
+            }
+            else if(navigator.mozGetUserMedia) { // Firefox-prefixed
+                navigator.mozGetUserMedia(videoObj, function(stream){
+                    me.set('videoelement.src', window.URL.createObjectURL(stream));
+                    video.play();
+                }, errBack);
+            }
+        }
     },
-    snap(){
+    _stream_changed: function(){
+        if(navigator.getUserMedia) { 
+            this.set('videoelement.src', this.stream);
+        }else{
+            this.set('videoelement.src', window.URL.createObjectURL(this.stream));
+        }
+    },
+    snap: function(){
         this.takePicture(true);
     },
     takePicture: function(actually){

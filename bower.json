@@ -3,7 +3,7 @@
   "authors": [
     "e022333 <ffernandez@bbva.com>"
   ],
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Polymer component for video camera access and for image capture",
   "main": "video-camera.html",
   "keywords": [
