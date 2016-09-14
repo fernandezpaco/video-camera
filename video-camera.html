@@ -16,6 +16,9 @@
             position: absolute;
             transition: transform 0.3s;
         }
+        #videoId[is-closed]{
+            display: none;
+        }
     </style>
     <video id="videoId" on-tap="snap"></video>
     <canvas id="canvas" style="display:none"></canvas>
@@ -39,7 +42,8 @@ Polymer({
         },
         waitforinput: {
             type: Boolean,
-            value: false
+            value: false,
+            observer: '_wfi_changed'
         }
     },
     attached: function(){
@@ -81,11 +85,20 @@ Polymer({
             }
         }
     },
+    _wfi_changed: function(){
+        if(this.waitforinput)
+            this.$.videoId.setAttribute('is-closed', true);
+    },
     _stream_changed: function(){
-        if(navigator.getUserMedia) { 
-            this.set('videoelement.src', this.stream);
+        if(this.stream){
+            this.$.videoId.removeAttribute('is-closed');
+            if(navigator.getUserMedia) { 
+                this.set('videoelement.src', this.stream);
+            }else{
+                this.set('videoelement.src', window.URL.createObjectURL(this.stream));
+            }
         }else{
-            this.set('videoelement.src', window.URL.createObjectURL(this.stream));
+            this.$.videoId.setAttribute('is-closed', true);
         }
     },
     snap: function(){
