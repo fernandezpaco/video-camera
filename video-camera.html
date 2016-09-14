@@ -2,7 +2,22 @@
 
 <dom-module id="video-camera">
 <template>
-    <video id="videoId" on-tap="snap" style="width:100%"></video>
+    <style>
+        :host {
+        }
+
+        #videoId{
+            width:100%;
+        }
+
+        #videoId[is-pip]{
+            transform-origin: top left;
+            transform: scale(0.2,0.2);
+            position: absolute;
+            transition: transform 0.3s;
+        }
+    </style>
+    <video id="videoId" on-tap="snap"></video>
     <canvas id="canvas" style="display:none"></canvas>
 </template>
 <script>
@@ -75,6 +90,13 @@ Polymer({
     },
     snap: function(){
         this.takePicture(true);
+    },
+    pip: function(){
+        if (this.$.videoId.hasAttribute('is-pip')) {
+            this.$.videoId.removeAttribute('is-pip');
+        }else{
+            this.$.videoId.setAttribute('is-pip', true);
+        }
     },
     takePicture: function(actually){
         if(actually){
