@@ -63,8 +63,20 @@ Polymer({
         // Put video listeners into place
         var me=this;
 
+navigator.getMedia = ( navigator.getUserMedia ||
+                       navigator.webkitGetUserMedia ||
+                       navigator.mozGetUserMedia ||
+                       navigator.msGetUserMedia);
+
+
         if(!this.waitforinput){
-            if(navigator.getUserMedia) { // Standard
+                navigator.getMedia(videoObj, function(stream){
+                    me.set('videoelement.src', window.URL.createObjectURL(stream));
+                    me.set('stream', stream);
+                    //video.src=window.URL.createObjectURL(stream);
+                    video.play();
+                }, errBack);
+            /*if(navigator.getUserMedia) { // Standard
                 navigator.getUserMedia(videoObj, function(stream) {
                     me.set('videoelement.src', stream);
                     video.play();
@@ -80,9 +92,10 @@ Polymer({
             else if(navigator.mozGetUserMedia) { // Firefox-prefixed
                 navigator.mozGetUserMedia(videoObj, function(stream){
                     me.set('videoelement.src', window.URL.createObjectURL(stream));
+                    me.set('stream', stream);
                     video.play();
                 }, errBack);
-            }
+            }*/
         }
     },
     _wfi_changed: function(){
@@ -92,10 +105,13 @@ Polymer({
     _stream_changed: function(){
         if(this.stream){
             this.$.videoId.removeAttribute('is-closed');
-            if(navigator.getUserMedia) { 
-                this.set('videoelement.src', this.stream);
-            }else{
-                this.set('videoelement.src', window.URL.createObjectURL(this.stream));
+            if(this.waitforinput){
+                this.set('videoelement.src', window.URL.createObjectURL(stream));
+                /*if(navigator.getUserMedia) { 
+                    this.set('videoelement.src', this.stream);
+                }else{
+                    this.set('videoelement.src', window.URL.createObjectURL(this.stream));
+                }*/
             }
         }else{
             this.$.videoId.setAttribute('is-closed', true);
