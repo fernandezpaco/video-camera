@@ -106,7 +106,7 @@ navigator.getMedia = ( navigator.getUserMedia ||
         if(this.stream){
             this.$.videoId.removeAttribute('is-closed');
             if(this.waitforinput){
-                this.set('videoelement.src', window.URL.createObjectURL(stream));
+                this.set('videoelement.src', window.URL.createObjectURL(this.stream));
                 /*if(navigator.getUserMedia) { 
                     this.set('videoelement.src', this.stream);
                 }else{
