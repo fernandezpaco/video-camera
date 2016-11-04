@@ -121,6 +121,9 @@ navigator.getMedia = ( navigator.getUserMedia ||
     snap: function(){
         this.takePicture(true);
     },
+    hide: function(){
+        this.$.videoId.setAttribute('is-closed', true);
+    },
     pip: function(){
         if (this.$.videoId.hasAttribute('is-pip')) {
             this.$.videoId.removeAttribute('is-pip');
