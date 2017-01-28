@@ -40,6 +40,7 @@ Polymer({
             notify: true,
             observer: '_stream_changed'           
         },
+        //In case we want to use an external stream for webrtc
         waitforinput: {
             type: Boolean,
             value: false,
@@ -63,7 +64,7 @@ Polymer({
         // Put video listeners into place
         var me=this;
 
-navigator.getMedia = ( navigator.getUserMedia ||
+        navigator.getMedia = ( navigator.getUserMedia ||
                        navigator.webkitGetUserMedia ||
                        navigator.mozGetUserMedia ||
                        navigator.msGetUserMedia);
@@ -76,26 +77,6 @@ navigator.getMedia = ( navigator.getUserMedia ||
                     //video.src=window.URL.createObjectURL(stream);
                     video.play();
                 }, errBack);
-            /*if(navigator.getUserMedia) { // Standard
-                navigator.getUserMedia(videoObj, function(stream) {
-                    me.set('videoelement.src', stream);
-                    video.play();
-                }, errBack);
-            } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-                navigator.webkitGetUserMedia(videoObj, function(stream){
-                    me.set('videoelement.src', window.URL.createObjectURL(stream));
-                    me.set('stream', stream);
-                    //video.src=window.URL.createObjectURL(stream);
-                    video.play();
-                }, errBack);
-            }
-            else if(navigator.mozGetUserMedia) { // Firefox-prefixed
-                navigator.mozGetUserMedia(videoObj, function(stream){
-                    me.set('videoelement.src', window.URL.createObjectURL(stream));
-                    me.set('stream', stream);
-                    video.play();
-                }, errBack);
-            }*/
         }
     },
     _wfi_changed: function(){
@@ -108,11 +89,6 @@ navigator.getMedia = ( navigator.getUserMedia ||
             if(this.waitforinput){
                 this.set('videoelement.src', window.URL.createObjectURL(this.stream));
                 this.$.videoId.play();
-                /*if(navigator.getUserMedia) { 
-                    this.set('videoelement.src', this.stream);
-                }else{
-                    this.set('videoelement.src', window.URL.createObjectURL(this.stream));
-                }*/
             }
         }else{
             this.$.videoId.setAttribute('is-closed', true);
