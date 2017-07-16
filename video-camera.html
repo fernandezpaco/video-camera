@@ -40,7 +40,6 @@ Polymer({
             notify: true,
             observer: '_stream_changed'           
         },
-        //In case we want to use an external stream for webrtc
         waitforinput: {
             type: Boolean,
             value: false,
@@ -71,12 +70,42 @@ Polymer({
 
 
         if(!this.waitforinput){
-                navigator.getMedia(videoObj, function(stream){
+                if(navigator.getMedia){
+                    navigator.getMedia(videoObj, function(stream){
+                        me.set('videoelement.src', window.URL.createObjectURL(stream));
+                        me.set('stream', stream);
+                        //video.src=window.URL.createObjectURL(stream);
+                        video.play();
+                    }, errBack);
+                }else{
+                    navigator.mediaDevices.getUserMedia(videoObj).then( function(stream){
+                        me.set('videoelement.srcObject', stream);
+                        me.set('stream', stream);
+                        //video.src=window.URL.createObjectURL(stream);
+                        video.play();
+                    }).catch(errBack);
+
+                }
+            /*if(navigator.getUserMedia) { // Standard
+                navigator.getUserMedia(videoObj, function(stream) {
+                    me.set('videoelement.src', stream);
+                    video.play();
+                }, errBack);
+            } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+                navigator.webkitGetUserMedia(videoObj, function(stream){
                     me.set('videoelement.src', window.URL.createObjectURL(stream));
                     me.set('stream', stream);
                     //video.src=window.URL.createObjectURL(stream);
                     video.play();
                 }, errBack);
+            }
+            else if(navigator.mozGetUserMedia) { // Firefox-prefixed
+                navigator.mozGetUserMedia(videoObj, function(stream){
+                    me.set('videoelement.src', window.URL.createObjectURL(stream));
+                    me.set('stream', stream);
+                    video.play();
+                }, errBack);
+            }*/
         }
     },
     _wfi_changed: function(){
@@ -89,6 +118,11 @@ Polymer({
             if(this.waitforinput){
                 this.set('videoelement.src', window.URL.createObjectURL(this.stream));
                 this.$.videoId.play();
+                /*if(navigator.getUserMedia) { 
+                    this.set('videoelement.src', this.stream);
+                }else{
+                    this.set('videoelement.src', window.URL.createObjectURL(this.stream));
+                }*/
             }
         }else{
             this.$.videoId.setAttribute('is-closed', true);
