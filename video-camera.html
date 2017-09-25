@@ -72,7 +72,10 @@ Polymer({
         if(!this.waitforinput){
                 if(navigator.getMedia){
                     navigator.getMedia(videoObj, function(stream){
-                        me.set('videoelement.src', window.URL.createObjectURL(stream));
+                        //cambiado porque no  funciona en Safari
+                        //me.set('videoelement.src', window.URL.createObjectURL(stream));
+                        me.set('videoelement.srcObject', stream);
+
                         me.set('stream', stream);
                         //video.src=window.URL.createObjectURL(stream);
                         video.play();
