@@ -3,7 +3,7 @@
   "authors": [
     "e022333 <ffernandez@bbva.com>"
   ],
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Polymer component for video camera access and for image capture",
   "main": "video-camera.html",
   "keywords": [
@@ -19,8 +19,9 @@
     "tests"
   ],
   "dependencies": {
-    "iron-ajax": "PolymerElements/iron-ajax#^1.4.0",
     "polymer": "Polymer/polymer#^1.0.0",
+    "iron-icons": "https://github.com/PolymerElements/iron-icons.git#v1.1.3",
+    "paper-icon-button": "https://github.com/PolymerElements/paper-icon-button.git#v1.1.6",
     "webcomponentsjs": "^0.7.22"
   }
 }

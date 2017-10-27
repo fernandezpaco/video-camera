@@ -1,15 +1,13 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
 
 <dom-module id="video-camera">
 <template>
     <style>
-        :host {
-        }
-
         #videoId{
             width:100%;
         }
-
         #videoId[is-pip]{
             transform-origin: top left;
             transform: scale(0.2,0.2);
@@ -19,9 +17,23 @@
         #videoId[is-closed]{
             display: none;
         }
+        button[is=paper-icon-button-light] {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 40px;
+            height: 40px;
+            border:none;
+            background-color:transparent;
+        }
     </style>
-    <video id="videoId" on-tap="snap"></video>
-    <canvas id="canvas" style="display:none"></canvas>
+    <div>
+        <video id="videoId" on-tap="snap"></video>
+        <canvas id="canvas" style="display:none"></canvas>
+        <button is="paper-icon-button-light" title="play video" on-tap="play">
+            <iron-icon icon="icons:visibility"></iron-icon>
+        </button>
+    </div>
 </template>
 <script>
 Polymer({
@@ -55,7 +67,7 @@ Polymer({
         this.videoelement = video;
 
         var context = canvas.getContext("2d"),
-        videoObj = { "video": true },
+        videoObj = { "video": true,audio: true },
         errBack = function(error) {
             console.log("Video capture error: ", error.code); 
         };
@@ -133,6 +145,10 @@ Polymer({
             this.$.videoId.setAttribute('is-closed', true);
         }
     },
+    play: function(){
+        this.$.videoId.play();
+    },
+
     snap: function(){
         this.takePicture(true);
     },
